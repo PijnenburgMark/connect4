@@ -8,11 +8,11 @@ def AI_move_random(position: np.ndarray, player : str) -> np.ndarray:
     # welke kolommen zijn nog niet helemaal vol?
     validmoves = np.where(position[0,:]==0)[0]
     randint = np.random.randint(0,len(validmoves))
-    move_ai = validmoves[randint]
+    move = validmoves[randint]
     new_board = position.copy()
-    change_col = position[:, move_ai]
+    change_col = position[:, move]
     row = np.where(change_col==0)[0][-1]
-    new_board[row, move_ai] = 1 if player == 'player 1' else 2
+    new_board[row, move] = 1 if player == 'player 1' else 2
     return new_board
 
 if __name__ == '__main__':
