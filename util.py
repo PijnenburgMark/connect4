@@ -8,6 +8,7 @@ Code that implements some auxiliary functions
 that are used at various parts in the code.
 """
 import numpy as np
+import unittest
 
 def new_position(old_position: np.ndarray, player: str, move: int) \
 -> np.ndarray:
@@ -76,21 +77,21 @@ def win_pattern(position: np.ndarray) -> str:
         for row in position:
             vec = row == player_nr
             if pattern_xxxx(vec):
-                return "player" + str(player_nr)
+                return "player " + str(player_nr)
         for col in np.rot90(position):
             vec = col == player_nr
             if pattern_xxxx(vec):
-                return "player" + str(player_nr)
+                return "player " + str(player_nr)
         for i in range(-2, 4):
             diag = position.diagonal(i)
             vec = diag == player_nr
             if pattern_xxxx(vec):
-                return "player" + str(player_nr)
+                return "player " + str(player_nr)
         for i in range(-3,3):
             antidiag = np.rot90(position).diagonal(i)
             vec = antidiag == player_nr
             if pattern_xxxx(vec):
-                return "player" + str(player_nr)
+                return "player " + str(player_nr)
     return "nowin"
 
 
@@ -118,7 +119,23 @@ def value_board(position: np.ndarray, player : str) -> float:
     result_win = win_pattern(position)
     if result_win == player:
         return 100
-    elif result_win not in(player, "no win"):
+    elif result_win not in(player, "nowin"):
         return -100
     else: #check on 3 patterns
         return 0
+
+if __name__ == '__main__':
+    # test case 1 for value_board
+    class Testing(unittest.TestCase):
+        def test_string(self):
+            boa = np.array([
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [2,0,0,0,0,0,0],
+            [1,0,0,0,0,0,0],
+            [2,0,0,1,0,0,0]
+            ])
+            self.assertEqual(value_board(boa, 'player 2'), 0)
+
+    unittest.main()

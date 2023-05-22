@@ -50,7 +50,7 @@ class Game:
                 move = self.gamewindow.get_event(valid_moves)
                 self.board = new_position(self.board, 'player 1', move)
             else:
-                self.board = AI_move_minimax(self.board, 3, 'player 1') 
+                self.board = AI_move_minimax(self.board, 4, 'player 1') 
             self.gamewindow.draw_board(self.board)
             if win_pattern(self.board) == 'nowin':
                 self.whose_turn = 'player 2'
@@ -58,20 +58,26 @@ class Game:
             else: 
                 # TO DO: win screen
                 print(win_pattern(self.board) + ' won!!')
+                pg.quit()
+                pg.time.wait(4000)
+                exit()
 
         else:
             if self.player2.player_type == 'human':
                 move = self.gamewindow.get_event(valid_moves)
                 self.board = new_position(self.board, 'player 2', move)
             else:
-                self.board = AI_move_minimax(self.board, 3, 'player 2')
+                self.board = AI_move_minimax(self.board, 4, 'player 2')
             self.gamewindow.draw_board(self.board)
             if win_pattern(self.board) == 'nowin':
                 self.whose_turn = 'player 1'
                 self.next_move()
             else: 
                 # TO DO: win screen
-                print(win_pattern(self.board) + ' won!!')       
+                print(win_pattern(self.board) + ' won!!') 
+                pg.quit()
+                pg.time.wait(4000)
+                exit()
 
 
 class Player:

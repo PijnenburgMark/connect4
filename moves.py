@@ -64,9 +64,11 @@ def minimax(position: np.ndarray,
         The current position if the board
     depth : int
         The depth at which the minimax algorithm is working.
+        For a fair evaluation, only even numbers should be used. Only with
+        even number both players play the same amount of turns.
     is_maximizing_player : bool
         A boolean indicating whether the minimax algorithm should
-        take the max or the minimum vlaue of the possible moves.
+        take the max or the minimum value of the possible moves.
     player : str
         A string with two possible values 'player 1' of 'player 2'.
         Needed to tell the computer what the '1' and '2' mean of the board.
@@ -79,7 +81,6 @@ def minimax(position: np.ndarray,
         represents the latest move that let to this value.
 
     '''
-    
     other_player = 'player 2' if player == 'player 1' else 'player 1'
     valid_moves = np.where(position[0,:]==0)[0]
     # current board is in a terminal state
@@ -99,28 +100,31 @@ def minimax(position: np.ndarray,
        
     if is_maximizing_player:
         best_value = -10000.0
-        best_move = valid_moves[0] # random initial value
+        randint = np.random.randint(0,len(valid_moves))
+        best_move = valid_moves[randint] # random initial value
         for move in valid_moves:
             new_board = new_position(position, player, move)
             value , mmmove = minimax(new_board, depth - 1, False, other_player)
             best_value = max( best_value, value)
             if value == best_value:
-                best_move = mmmove
+                best_move = move
         return (best_value, best_move)
 
     else :
         best_value = +10000.0
-        best_move = valid_moves[0] # random initial value
+        randint = np.random.randint(0,len(valid_moves))
+        best_move = valid_moves[randint] # random initial value
         for move in valid_moves:
             new_board = new_position(position, player, move)
             value , mmmove = minimax(new_board, depth - 1, True, other_player)
             best_value = min( best_value, value) 
             if value == best_value:
-                best_move = mmmove
+                best_move = move
         return (best_value, best_move) 
 
 
 if __name__ == '__main__':
+    # test for AI_move_random
     position = np.zeros((6, 7))
     position[5,0] = 1
     position[5,1] = 1
@@ -128,3 +132,5 @@ if __name__ == '__main__':
     print(position)
     new_pos = AI_move_random(position, 'player 1')
     print(new_pos)
+    
+    
